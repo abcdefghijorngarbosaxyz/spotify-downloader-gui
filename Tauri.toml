@@ -33,3 +33,8 @@ timestampUrl = ""
 
 [tauri.updater]
 active = false
+
+[build]
+distDir = "app-ui/build"
+devPath = "http://localhost:5173"
+withGlobalTauri = true
