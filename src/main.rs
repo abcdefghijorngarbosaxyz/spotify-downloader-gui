@@ -1,3 +1,4 @@
-fn main() {
-  println!("Hello, world!");
+#[tokio::main]
+async fn main() {
+  println!("Hello World with Tokio");
 }
