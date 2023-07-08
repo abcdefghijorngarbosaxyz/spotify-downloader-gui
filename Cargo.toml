@@ -7,7 +7,7 @@ version = "0.0.1"
 edition = "2021"
 build = "src/build.rs"
 rust-version = "1.60"
-defaul-run = "spotify-downloader-gui"
+default-run = "spotify-downloader-gui"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
