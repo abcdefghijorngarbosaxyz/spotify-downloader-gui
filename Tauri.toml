@@ -7,6 +7,7 @@ all = false
 
 [tauri.allowlist.dialog]
 confirm = true
+message = true
 
 [tauri.allowlist.shell]
 open = "\\S+"

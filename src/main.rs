@@ -4,7 +4,9 @@
 )]
 
 mod app;
+mod config;
 mod constants;
+mod utils;
 
 #[tokio::main]
 async fn main() {

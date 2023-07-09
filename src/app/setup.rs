@@ -10,8 +10,8 @@ pub fn init(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         .center()
         .fullscreen(false)
         .inner_size(
-          crate::constants::MAIN_WINDOW_WIDTH,
-          crate::constants::MAIN_WINDOW_HEIGHT,
+          crate::constants::DEFAULT_WINDOW_WIDTH,
+          crate::constants::DEFAULT_WINDOW_HEIGHT,
         )
         .maximizable(false)
         .maximized(false)
