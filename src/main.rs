@@ -23,9 +23,7 @@ async fn main() {
     .menu(app::menu::init());
 
   app_builder
-    .on_window_event(move |event: tauri::GlobalWindowEvent| {
-      api.prevent_close();
-    })
+    .on_window_event(app::window::handle_event)
     .run(context)
     .expect("Error while running application");
 }
