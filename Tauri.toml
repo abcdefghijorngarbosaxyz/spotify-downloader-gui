@@ -8,6 +8,9 @@ all = false
 [tauri.allowlist.dialog]
 confirm = true
 
+[tauri.allowlist.shell]
+open = "\\S+"
+
 [tauri.bundle]
 active = true
 category = "Music"
@@ -32,10 +35,17 @@ depends = []
 [tauri.bundle.macOS]
 exception-domain = ""
 frameworks = []
+entitlements = ""
+provider-short-name = ""
+signing-identity = ""
 
 [tauri.bundle.windows]
 digest-algorithm = "sha256"
 timestamp-url = ""
+certificate-thumbprint = ""
+
+[tauri.security]
+csp = ""
 
 [tauri.updater]
 active = false

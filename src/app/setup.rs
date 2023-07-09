@@ -1,17 +1,18 @@
 use tauri::Manager;
 
-use crate::constants;
-
 pub fn init(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
   let app_handle: tauri::AppHandle = app.app_handle();
 
   tauri::async_runtime::spawn(async move {
     let main_window: tauri::WindowBuilder<'_> =
       tauri::WindowBuilder::new(&app_handle, "main", tauri::WindowUrl::App("/".into()))
-        .title(constants::APP_NAME)
+        .title(crate::constants::APP_NAME)
         .center()
         .fullscreen(false)
-        .inner_size(constants::MAIN_WINDOW_WIDTH, constants::MAIN_WINDOW_HEIGHT)
+        .inner_size(
+          crate::constants::MAIN_WINDOW_WIDTH,
+          crate::constants::MAIN_WINDOW_HEIGHT,
+        )
         .maximizable(false)
         .maximized(false)
         .resizable(false)

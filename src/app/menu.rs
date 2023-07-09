@@ -1,3 +1,5 @@
+use tauri::Manager;
+
 pub fn init() -> tauri::Menu {
   let app_menu: tauri::Menu = tauri::Menu::with_items([
     #[cfg(target_os = "macos")]
@@ -67,7 +69,7 @@ pub fn init() -> tauri::Menu {
         #[cfg(target_os = "macos")]
         tauri::MenuItem::EnterFullScreen.into(),
         tauri::MenuItem::Separator.into(),
-        tauri::CustomMenuItem::new("devtools", "Toggle Dev Tools")
+        tauri::CustomMenuItem::new("devtools", "Open Dev Tools")
           .accelerator("CmdOrCtrl+Shift+I")
           .into(),
       ]),
@@ -101,4 +103,23 @@ pub fn init() -> tauri::Menu {
   ]);
 
   app_menu
+}
+
+pub fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
+  let window: &tauri::Window = Some(event.window()).unwrap();
+  let app_handle: tauri::AppHandle = window.app_handle();
+  let menu_id: &str = event.menu_item_id();
+  let menu_handle: tauri::window::MenuHandle = window.menu_handle();
+
+  match menu_id {
+    "docs" => open(&app_handle, crate::constants::DOCS_URL),
+    "report_issue" => open(&app_handle, crate::constants::ISSUES_URL),
+    "join_us_on_discord" => open(&app_handle, crate::constants::DISCORD_URL),
+    "devtools" => window.open_devtools(),
+    _ => {}
+  }
+}
+
+fn open(app_handle: &tauri::AppHandle, path: &str) {
+  tauri::api::shell::open(&app_handle.shell_scope(), path, None).unwrap();
 }
