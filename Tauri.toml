@@ -12,6 +12,12 @@ message = true
 [tauri.allowlist.shell]
 open = "\\S+"
 
+[tauri.allowlist.clipboard]
+all = true
+
+[tauri.allowlist.os]
+all = true
+
 [tauri.bundle]
 active = true
 category = "Music"

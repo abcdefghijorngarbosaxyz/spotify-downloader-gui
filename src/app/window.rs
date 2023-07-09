@@ -6,9 +6,8 @@ pub fn handle_event(event: tauri::GlobalWindowEvent) {
         "Close ".to_owned() + crate::constants::APP_NAME,
         "Are you sure?",
       )
-      .buttons(
-        tauri::api::dialog::MessageDialogButtons::OkCancelWithLabels("Yes".into(), "No".into()),
-      )
+      .buttons(tauri::api::dialog::MessageDialogButtons::YesNo)
+      .parent(&window)
       .kind(tauri::api::dialog::MessageDialogKind::Warning)
       .show(|yes| {
         if yes {
