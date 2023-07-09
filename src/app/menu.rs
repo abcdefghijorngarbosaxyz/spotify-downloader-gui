@@ -113,6 +113,7 @@ pub fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
 
   match menu_id {
     "docs" => open(&app_handle, crate::constants::DOCS_URL),
+    "report_issue" => open(&app_handle, crate::constants::ISSUES_URL),
     _ => {}
   }
 }
