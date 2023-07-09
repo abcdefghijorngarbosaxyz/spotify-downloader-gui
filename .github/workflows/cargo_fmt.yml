@@ -1,0 +1,23 @@
+name: Cargo Formatter
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  format:
+    name: Format Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Dev Branch
+        uses: actions/checkout@v3
+
+      - name: Setup Rust Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: Format code with cargo fmt
+        run: cargo fmt --all -- --check

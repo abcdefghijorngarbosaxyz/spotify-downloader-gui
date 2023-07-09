@@ -1,0 +1,28 @@
+[package]
+name = "spotify-downloader-gui"
+description = "GUI app for spotDL"
+authors = ["abcdefghijorngarbosaxyz <jorn@jorndoescode.lol>"]
+license-file = "LICENSE"
+version = "0.0.1"
+edition = "2021"
+build = "src/build.rs"
+rust-version = "1.60"
+default-run = "spotify-downloader-gui"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+log = "0.4.19"
+serde = { version = "1.0.167", features = ["derive"] }
+serde_json = "1.0.100"
+tauri = { version = "1.4.1", features = ["devtools", "dialog-confirm"] }
+tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1", version = "0.0.0" }
+tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1", version = "0.0.0" }
+tokio = { version = "1.29.1", features = ["macros"] }
+
+[build-dependencies]
+tauri-build = { version = "1.4.0", features = ["config-toml"] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
