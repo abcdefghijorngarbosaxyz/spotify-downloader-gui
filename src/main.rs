@@ -1,3 +1,8 @@
+#![cfg_attr(
+  all(not(debug_assertions), target_os = "windows"),
+  windows_subsystem = "windows"
+)]
+
 mod app;
 mod constants;
 
@@ -14,11 +19,13 @@ async fn main() {
 
   let app_builder = tauri::Builder::default()
     .plugin(app_logger.build())
-    .setup(app::setup::init);
+    .setup(app::setup::init)
+    .menu(app::menu::init());
 
-  if let Err(error) = app_builder.run(context) {
-    log::error!("Error while running generating context: {}", error);
-  } else {
-    log::info!("Context generated.");
-  }
+  app_builder
+    .on_window_event(move |event: tauri::GlobalWindowEvent| {
+      api.prevent_close();
+    })
+    .run(context)
+    .expect("Error while running application");
 }

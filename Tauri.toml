@@ -2,6 +2,12 @@
 product-name = "spotify-downloader-gui"
 version = "0.0.1"
 
+[tauri.allowlist]
+all = false
+
+[tauri.allowlist.dialog]
+confirm = true
+
 [tauri.bundle]
 active = true
 category = "Music"

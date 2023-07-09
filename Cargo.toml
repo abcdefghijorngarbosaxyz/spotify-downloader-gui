@@ -15,7 +15,7 @@ default-run = "spotify-downloader-gui"
 log = "0.4.19"
 serde = { version = "1.0.167", features = ["derive"] }
 serde_json = "1.0.100"
-tauri = { version = "1.4.1", features = ["devtools"] }
+tauri = { version = "1.4.1", features = ["devtools", "dialog-confirm"] }
 tauri-plugin-log = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1", version = "0.0.0" }
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1", version = "0.0.0" }
 tokio = { version = "1.29.1", features = ["macros"] }
