@@ -1,5 +1,5 @@
 #[tauri::command]
-pub fn open_about<R: tauri::Runtime>(app_handle: tauri::AppHandle<R>, window: tauri::Window<R>) {
+pub fn open_about<R: tauri::Runtime>(app_handle: tauri::AppHandle<R>, _window: tauri::Window<R>) {
   let package_info: tauri::PackageInfo = app_handle.package_info().clone();
 
   let message: String = format!(

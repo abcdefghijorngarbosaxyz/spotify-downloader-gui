@@ -3,7 +3,7 @@ use tauri::Manager;
 pub fn init(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
   let app_handle: tauri::AppHandle = app.app_handle();
 
-  tauri::async_runtime::spawn(async move {
+  tokio::task::spawn(async move {
     let main_window: tauri::WindowBuilder<'_> =
       tauri::WindowBuilder::new(&app_handle, "main", tauri::WindowUrl::App("/".into()))
         .title(crate::constants::APP_NAME)

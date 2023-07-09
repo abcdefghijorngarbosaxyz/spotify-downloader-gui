@@ -105,7 +105,7 @@ pub fn init() -> tauri::Menu {
   app_menu
 }
 
-pub fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
+pub async fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
   let window: &tauri::Window = Some(event.window()).unwrap();
   let app_handle: tauri::AppHandle = window.app_handle();
   let menu_id: &str = event.menu_item_id();
@@ -117,6 +117,20 @@ pub fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
     "join_us_on_discord" => open(&app_handle, crate::constants::DISCORD_URL),
     "devtools" => window.open_devtools(),
     "about" => crate::app::about::open_about(app_handle, window.clone()),
+    "always_on_top" => {
+      let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
+      let always_on_top: bool = !app_config.always_on_top;
+
+      menu_handle
+        .get_item(menu_id)
+        .set_selected(always_on_top)
+        .unwrap();
+      window.set_always_on_top(always_on_top).unwrap();
+      app_config
+        .patch(serde_json::json!({ "always_on_top": always_on_top }))
+        .write()
+        .await;
+    }
     _ => {}
   }
 }
