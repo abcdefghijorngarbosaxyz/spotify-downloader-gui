@@ -8,6 +8,9 @@ all = false
 [tauri.allowlist.dialog]
 confirm = true
 
+[tauri.allowlist.shell]
+open = "\\S+"
+
 [tauri.bundle]
 active = true
 category = "Music"

@@ -1,3 +1,5 @@
+use tauri::Manager;
+
 pub fn init() -> tauri::Menu {
   let app_menu: tauri::Menu = tauri::Menu::with_items([
     #[cfg(target_os = "macos")]
@@ -101,4 +103,20 @@ pub fn init() -> tauri::Menu {
   ]);
 
   app_menu
+}
+
+pub fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
+  let window: &tauri::Window = Some(event.window()).unwrap();
+  let app_handle: tauri::AppHandle = window.app_handle();
+  let menu_id: &str = event.menu_item_id();
+  let menu_handle: tauri::window::MenuHandle = window.menu_handle();
+
+  match menu_id {
+    "docs" => open(&app_handle, crate::constants::DOCS_URL),
+    _ => {}
+  }
+}
+
+fn open(app_handle: &tauri::AppHandle, path: &str) {
+  tauri::api::shell::open(&app_handle.shell_scope(), path, None).unwrap();
 }
