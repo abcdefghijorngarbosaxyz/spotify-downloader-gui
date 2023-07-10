@@ -111,6 +111,8 @@ pub async fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
   let menu_id: &str = event.menu_item_id();
   let menu_handle: tauri::window::MenuHandle = window.menu_handle();
 
+  let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
+
   match menu_id {
     "docs" => open(&app_handle, crate::constants::DOCS_URL),
     "report_issue" => open(&app_handle, crate::constants::ISSUES_URL),
@@ -118,7 +120,6 @@ pub async fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
     "devtools" => window.open_devtools(),
     "about" => crate::app::about::open_about(app_handle, window.clone()),
     "always_on_top" => {
-      let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
       let always_on_top: bool = !app_config.always_on_top;
 
       menu_handle
@@ -131,6 +132,33 @@ pub async fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
         .write()
         .await;
     }
+    "open_download_folder" => {
+      if crate::utils::path_exists(std::path::PathBuf::from(&app_config.download_folder).as_path())
+      {
+        open(&app_handle, &app_config.download_folder);
+      } else {
+        tauri::api::dialog::MessageDialogBuilder::new("Folder Not Found", "Select another folder.")
+          .buttons(tauri::api::dialog::MessageDialogButtons::Ok)
+          .parent(&window)
+          .kind(tauri::api::dialog::MessageDialogKind::Error)
+          .show(|_| {});
+      }
+    }
+
+    "select_download_folder" => tokio::task::spawn(async move {
+      let folder: Option<std::path::PathBuf> =
+        tauri::api::dialog::blocking::FileDialogBuilder::new().pick_folder();
+      if folder.is_some() {
+        let folder_path: String = folder.unwrap().to_str().unwrap().to_string();
+        app_config
+          .patch(serde_json::json!({ "download_folder": folder_path }))
+          .write()
+          .await;
+        log::info!("Download folder changed: {}", folder_path);
+      }
+    })
+    .await
+    .unwrap(),
     _ => {}
   }
 }

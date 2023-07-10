@@ -15,9 +15,6 @@ open = "\\S+"
 [tauri.allowlist.clipboard]
 all = true
 
-[tauri.allowlist.os]
-all = true
-
 [tauri.bundle]
 active = true
 category = "Music"
@@ -59,5 +56,5 @@ active = false
 
 [build]
 dist-dir = "app-ui/build"
-dev-path = "http://localhost:5173"
+dev-path = "https://www.jorndoescode.lol"
 with-global-tauri = true

@@ -9,12 +9,17 @@ macro_rules! pub_struct {
 
 pub_struct!(AppConfig {
   always_on_top: bool,
+  download_folder: String,
 });
 
 impl AppConfig {
   pub fn new() -> Self {
     Self {
       always_on_top: false,
+      download_folder: tauri::api::path::download_dir()
+        .unwrap()
+        .to_string_lossy()
+        .to_string(),
     }
   }
 
