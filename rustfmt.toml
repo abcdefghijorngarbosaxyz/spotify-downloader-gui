@@ -1,5 +1,5 @@
 max_width = 100
 tab_spaces = 2
 hard_tabs = false
-newline_style = "Windows"
+newline_style = "Unix"
 edition = "2021"
