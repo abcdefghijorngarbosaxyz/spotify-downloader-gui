@@ -55,6 +55,8 @@ csp = ""
 active = false
 
 [build]
-dist-dir = "app-ui/build"
-dev-path = "https://www.jorndoescode.lol"
+dist-dir = "interface/build"
+dev-path = "http://localhost:5173"
+before-dev-command = "pnpm interface dev"
+before-build-command = "pnpm interface build"
 with-global-tauri = true
