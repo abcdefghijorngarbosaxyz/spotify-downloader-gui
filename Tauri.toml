@@ -7,9 +7,13 @@ all = false
 
 [tauri.allowlist.dialog]
 confirm = true
+message = true
 
 [tauri.allowlist.shell]
 open = "\\S+"
+
+[tauri.allowlist.clipboard]
+all = true
 
 [tauri.bundle]
 active = true
@@ -17,11 +21,11 @@ category = "Music"
 copyright = ""
 external-bin = []
 icon = [
-  "icons/32x32.png",
-  "icons/128x128.png",
-  "icons/128x128@2x.png",
-  "icons/icon.icns",
-  "icons/icon.ico"
+  "assets/icons/32x32.png",
+  "assets/icons/128x128.png",
+  "assets/icons/128x128@2x.png",
+  "assets/icons/icon.icns",
+  "assets/icons/icon.ico"
 ]
 identifier = "gui.spotdl.app"
 long-description = "GUI app for spotDL"
@@ -51,6 +55,8 @@ csp = ""
 active = false
 
 [build]
-dist-dir = "app-ui/build"
+dist-dir = "interface/build"
 dev-path = "http://localhost:5173"
+before-dev-command = "pnpm interface dev"
+before-build-command = "pnpm interface build"
 with-global-tauri = true

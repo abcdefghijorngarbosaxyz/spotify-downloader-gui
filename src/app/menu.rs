@@ -105,17 +105,60 @@ pub fn init() -> tauri::Menu {
   app_menu
 }
 
-pub fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
+pub async fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
   let window: &tauri::Window = Some(event.window()).unwrap();
   let app_handle: tauri::AppHandle = window.app_handle();
   let menu_id: &str = event.menu_item_id();
   let menu_handle: tauri::window::MenuHandle = window.menu_handle();
+
+  let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
 
   match menu_id {
     "docs" => open(&app_handle, crate::constants::DOCS_URL),
     "report_issue" => open(&app_handle, crate::constants::ISSUES_URL),
     "join_us_on_discord" => open(&app_handle, crate::constants::DISCORD_URL),
     "devtools" => window.open_devtools(),
+    "about" => crate::app::about::open_about(app_handle, window.clone()),
+    "always_on_top" => {
+      let always_on_top: bool = !app_config.always_on_top;
+
+      menu_handle
+        .get_item(menu_id)
+        .set_selected(always_on_top)
+        .unwrap();
+      window.set_always_on_top(always_on_top).unwrap();
+      app_config
+        .patch(serde_json::json!({ "always_on_top": always_on_top }))
+        .write()
+        .await;
+    }
+    "open_download_folder" => {
+      if crate::utils::path_exists(std::path::PathBuf::from(&app_config.download_folder).as_path())
+      {
+        open(&app_handle, &app_config.download_folder);
+      } else {
+        tauri::api::dialog::MessageDialogBuilder::new("Folder Not Found", "Select another folder.")
+          .buttons(tauri::api::dialog::MessageDialogButtons::Ok)
+          .parent(&window)
+          .kind(tauri::api::dialog::MessageDialogKind::Error)
+          .show(|_| {});
+      }
+    }
+
+    "select_download_folder" => tokio::task::spawn(async move {
+      let folder: Option<std::path::PathBuf> =
+        tauri::api::dialog::blocking::FileDialogBuilder::new().pick_folder();
+      if folder.is_some() {
+        let folder_path: String = folder.unwrap().to_str().unwrap().to_string();
+        app_config
+          .patch(serde_json::json!({ "download_folder": folder_path }))
+          .write()
+          .await;
+        log::info!("Download folder changed: {}", folder_path);
+      }
+    })
+    .await
+    .unwrap(),
     _ => {}
   }
 }
