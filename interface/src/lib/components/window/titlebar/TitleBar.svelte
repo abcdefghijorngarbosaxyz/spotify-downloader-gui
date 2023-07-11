@@ -1,6 +1,7 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/tauri';
   import { appWindow } from '@tauri-apps/api/window';
+  import AppIcon from '../../../../../../assets/icons/32x32.png';
 
   const onMinimizeButtonClicked = async () => {
     await appWindow.minimize();
@@ -14,9 +15,11 @@
 {#await invoke('get_platform') then platform}
   {#if platform === 'Windows'}
     <div id="titlebar">
-      <div data-tauri-drag-region />
+      <div data-tauri-drag-region>
+        <button tabindex="-1"><img src={AppIcon} alt="app_icon" width="16" height="16" /></button>
+      </div>
       <div>
-        <button on:click={onMinimizeButtonClicked}>
+        <button tabindex="-1" on:click={onMinimizeButtonClicked}>
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -26,7 +29,7 @@
             ><path d="M14 8v1H3V8h11z" />
           </svg>
         </button>
-        <button>
+        <button tabindex="-1">
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -36,7 +39,7 @@
             ><path d="M3 3v10h10V3H3zm9 9H4V4h8v8z" />
           </svg>
         </button>
-        <button on:click={onCloseButtonClicked}>
+        <button tabindex="-1" on:click={onCloseButtonClicked}>
           <svg
             stroke="currentColor"
             fill="currentColor"
@@ -102,5 +105,9 @@
 
   button {
     @apply cursor-default;
+  }
+
+  [data-tauri-drag-region] > button:has(img) {
+    @apply ml-[5px] align-bottom;
   }
 </style>
