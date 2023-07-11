@@ -15,11 +15,6 @@ open = "\\S+"
 [tauri.allowlist.clipboard]
 all = true
 
-[tauri.allowlist.window]
-start-dragging = true
-minimize = true
-close = true
-
 [tauri.bundle]
 active = true
 category = "Music"

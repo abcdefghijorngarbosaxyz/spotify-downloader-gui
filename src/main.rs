@@ -1,12 +1,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-#![allow(dead_code)]
 
 mod app;
 mod config;
 mod constants;
 mod utils;
 
-use app::{generic, window};
 use config::AppConfig;
 
 #[tokio::main]
@@ -24,30 +22,13 @@ async fn main() {
 
   let app_builder = tauri::Builder::default()
     .plugin(app_logger.build())
-    .invoke_handler(tauri::generate_handler![
-      generic::cmd::get_platform,
-      window::cmd::close_window
-    ])
-    .setup(app::setup::init);
-
-  /*
-   * Some of the menu items are configured also for windows, but
-   * we disabled it to allow full customization on the titlebar(on windows)
-   * and Tauri, currently, can't change the theme of the native menubar.
-   */
-  #[cfg(target_os = "macos")]
-  {
-    app_builder = app_builder.menu(app::menu::init());
-  }
-
-  #[cfg(target_os = "macos")]
-  {
-    app_builder = app_builder.on_menu_event(|event| {
-      tokio::task::spawn(async move { app::menu::handle_event(event).await });
-    });
-  }
+    .setup(app::setup::init)
+    .menu(app::menu::init());
 
   app_builder
+    .on_menu_event(|event| {
+      tokio::task::spawn(async move { app::menu::handle_event(event).await });
+    })
     .on_window_event(app::window::handle_event)
     .run(context)
     .expect("Error while running application");

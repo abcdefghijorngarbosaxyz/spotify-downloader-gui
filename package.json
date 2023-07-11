@@ -2,7 +2,9 @@
   "name": "spotify-downloader-gui",
   "version": "0.0.1",
   "private": true,
+
   "scripts": {
     "interface": "pnpm --filter=./interface"
   }
 }
+  
