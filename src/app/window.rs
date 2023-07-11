@@ -9,7 +9,7 @@ pub fn handle_event(event: tauri::GlobalWindowEvent) {
       .buttons(tauri::api::dialog::MessageDialogButtons::YesNo)
       .parent(&window)
       .kind(tauri::api::dialog::MessageDialogKind::Warning)
-      .show(|yes| {
+      .show(|yes: bool| {
         if yes {
           std::process::exit(0);
         }
@@ -26,7 +26,7 @@ pub mod cmd {
 
   #[tauri::command]
   pub fn close_window(app: tauri::AppHandle) {
-    let window = app.get_window("main").unwrap().clone();
+    let window: tauri::Window = app.get_window("main").unwrap().clone();
     tauri::api::dialog::MessageDialogBuilder::new(
       "Close ".to_owned() + crate::constants::APP_NAME,
       "Are you sure?",
@@ -34,7 +34,7 @@ pub mod cmd {
     .buttons(tauri::api::dialog::MessageDialogButtons::YesNo)
     .parent(&window)
     .kind(tauri::api::dialog::MessageDialogKind::Warning)
-    .show(|yes| {
+    .show(|yes: bool| {
       if yes {
         std::process::exit(0);
       }
