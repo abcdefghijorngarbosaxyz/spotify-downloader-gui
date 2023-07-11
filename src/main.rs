@@ -6,7 +6,7 @@ mod config;
 mod constants;
 mod utils;
 
-use app::generic;
+use app::{generic, window};
 use config::AppConfig;
 
 #[tokio::main]
@@ -24,7 +24,10 @@ async fn main() {
 
   let app_builder = tauri::Builder::default()
     .plugin(app_logger.build())
-    .invoke_handler(tauri::generate_handler![generic::cmd::get_platform])
+    .invoke_handler(tauri::generate_handler![
+      generic::cmd::get_platform,
+      window::cmd::close_window
+    ])
     .setup(app::setup::init);
 
   /*
