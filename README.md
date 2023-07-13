@@ -22,92 +22,94 @@ Download your favorite Spotify songs and playlists, along with album art and met
 <details>
   <summary>App</summary>
 
-- [ ] Use Spotify API
-  - [ ] Search
-    - [ ] By title
-    - [ ] By artist
-    - [ ] By playlist
-    - [ ] By album
-  - [ ] Download
-    - [ ] By song
-    - [ ] By artist
-    - [ ] By playlist
-    - [ ] By album
-  - [ ] Recommendations (User API key)
-- [ ] spotDL integration
-  - [ ] Start app with `spotdl app`
-  - [x] spotDL binaries sidecar
-    - [x] All platforms
-      - [x] Windows
-      - [x] Darwin
-      - [x] Linux
-  - [ ] spotDL auth options (optional)
-    - [ ] `--user-auth`
-    - [ ] `--client-id`
-    - [ ] `--client-secret`
-    - [ ] `--auth-token`
-  - [ ] spotDL download options
-    - [ ] `--audio-providers`
-    - [ ] `--lyrics-providers`
-    - [ ] `--output`
-    - [ ] `--output-dir`
-    - [ ] `--bitrate`
-    - [ ] `--threads`
-    - [ ] `--format`
-    - [ ] `--save-file`
-    - [ ] `--preload`
-    - [ ] `--m3u`
-    - [ ] `--overwrite`
-    - [ ] `--ytm-data`
-    - [ ] `--generate-lrc`
-    - [ ] `--force-update-metadata`
-- [ ] Standalone (package spotDL binaries, and ffmpeg)
-- [ ] Dependant (use installed spotDL CLI, and ffmpeg)
-  - [ ] Check if spotDL installed, download if not
-  - [ ] Check if ffmpeg installed, download if not
-- [ ] Views
-  - [x] Custom titlebar in Windows/Linux
-  - [ ] Window menu
-    - [ ] File
-      - [x] Open download folder
-      - [x] Select download folder
-    - [ ] View
-      - [x] Toggle developer tools
-    - [x] Window
-      - [x] Minimize
-      - [x] Always on top
-    - [ ] Help
-      - [x] Documentations
-      - [ ] Release notes
-      - [x] Report issue
-      - [x] Join us on Discord
-      - [ ] Check for updates
-      - [x] About
-  - [x] Custom "about" window
-  - [ ] Sidenavbar
-  - [ ] Search page
-  - [ ] Download queue page
-  - [ ] Context menu
+* [ ] Use Spotify API
+  * [ ] Search
+    * [ ] By title
+    * [ ] By artist
+    * [ ] By playlist
+    * [ ] By album
+  * [ ] Download
+    * [ ] By song
+    * [ ] By artist
+    * [ ] By playlist
+    * [ ] By album
+  * [ ] Recommendations (User API key)
+* [ ] spotDL integration
+  * [ ] Start app with `spotdl app`
+  * [x] spotDL binaries sidecar
+    * [x] All platforms
+      * [x] Windows
+      * [x] Darwin
+      * [x] Linux
+  * [ ] spotDL auth options (optional)
+    * [ ] `--user-auth`
+    * [ ] `--client-id`
+    * [ ] `--client-secret`
+    * [ ] `--auth-token`
+  * [ ] spotDL download options
+    * [ ] `--audio-providers`
+    * [ ] `--lyrics-providers`
+    * [ ] `--output`
+    * [ ] `--output-dir`
+    * [ ] `--bitrate`
+    * [ ] `--threads`
+    * [ ] `--format`
+    * [ ] `--save-file`
+    * [ ] `--preload`
+    * [ ] `--m3u`
+    * [ ] `--overwrite`
+    * [ ] `--ytm-data`
+    * [ ] `--generate-lrc`
+    * [ ] `--force-update-metadata`
+* [ ] Standalone (package spotDL binaries, and ffmpeg)
+* [ ] Dependant (use installed spotDL CLI, and ffmpeg)
+  * [ ] Check if spotDL installed, download if not
+  * [ ] Check if ffmpeg installed, download if not
+* [ ] Views
+  * [x] Custom titlebar in Windows/Linux
+  * [ ] Accelerators (macro shortcuts)
+  * [ ] Window menu
+    * [x] File
+      * [x] Open download folder
+      * [x] Select download folder
+      * [x] Exit
+    * [x] View
+      * [x] Toggle developer tools
+    * [x] Window
+      * [x] Minimize
+      * [x] Always on top
+    * [ ] Help
+      * [x] Documentations
+      * [ ] Release notes
+      * [x] Report issue
+      * [x] Join us on Discord
+      * [ ] Check for updates
+      * [x] About
+  * [x] Custom "about" window
+  * [ ] Sidenavbar
+  * [ ] Search page
+  * [ ] Download queue page
+  * [ ] Context menu
 
 </details>
 
 <details>
   <summary>Documentation</summary>
 
-- [ ] Installation
-- [ ] Usage
-- [ ] FAQ
-- [ ] Open-source notices
-- [ ] Code documentation (JSDoc, Rust)
-- [ ] Contributing guidelines
-- [ ] Github wiki
+* [ ] Installation
+* [ ] Usage
+* [ ] FAQ
+* [ ] Open-source notices
+* [ ] Code documentation (JSDoc, Rust)
+* [ ] Contributing guidelines
+* [ ] Github wiki
 </details>
 
 <details>
   <summary>Workflows</summary>
 
-- [ ] Release
-- [ ] Format code on dev push
+* [ ] Release
+* [ ] Format code on dev push
 </details>
 
 <br />
