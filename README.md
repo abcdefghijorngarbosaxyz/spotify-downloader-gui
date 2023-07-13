@@ -63,6 +63,7 @@ Download your favorite Spotify songs and playlists, along with album art and met
     - [ ] `--ytm-data`
     - [ ] `--generate-lrc`
     - [ ] `--force-update-metadata`
+  - [ ] Others (almost 100% of spotDL features can be implemented as this app uses compiled spotDL binaries under the hood as a sidecar)
 - [ ] Standalone (package spotDL binaries, and ffmpeg)
 - [ ] Dependant (use installed spotDL CLI, and ffmpeg)
   - [ ] Check if spotDL installed, download if not
