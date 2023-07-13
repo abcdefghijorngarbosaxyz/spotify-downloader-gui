@@ -1,18 +1,28 @@
 <script lang="ts">
+  import { useLocalStorage } from '$lib/utils/local-storage';
   import { Menu, MenuButton, MenuItem, MenuItems } from '@rgossiaux/svelte-headlessui';
   import { invoke } from '@tauri-apps/api/tauri';
-  import { writable } from 'svelte/store';
+  import { get, derived, writable } from 'svelte/store';
 
   const IS_A_MENU_OPEN = writable<boolean>(false);
   const OPEN_MENU = writable<string | null>(null);
 
+  const ALWAYS_ON_TOP = writable<boolean>(useLocalStorage('get', 'ALWAYS_ON_TOP') === 'true');
+
+  $: {
+    $ALWAYS_ON_TOP = $ALWAYS_ON_TOP;
+    useLocalStorage('set', 'ALWAYS_ON_TOP', String($ALWAYS_ON_TOP));
+  }
+
   const AppMenu: Array<{
-    [key: string]: {
+    [key: string]: Array<{
       name: string;
       action: string;
       accelerator?: string;
       seperateAfter?: boolean;
-    }[];
+      disabled?: boolean;
+      selected?: boolean;
+    }>;
   }> = [
     {
       File: [
@@ -32,25 +42,32 @@
           action: 'close_window',
           accelerator: 'Alt+F4'
         }
-      ],
+      ]
+    },
+    {
       View: [
         {
           name: 'Toggle developer tools',
           action: 'devtools',
           accelerator: 'Ctrl+Shift+I'
         }
-      ],
+      ]
+    },
+    {
       Window: [
         {
           name: 'Minimize',
-          action: 'minimize_window',
+          action: 'minimize',
           seperateAfter: true
         },
         {
           name: 'Always on top',
-          action: 'always_on_top'
+          action: 'always_on_top',
+          selected: true
         }
-      ],
+      ]
+    },
+    {
       Help: [
         {
           name: 'Documentation',
@@ -85,7 +102,34 @@
 
   const handleMenuItemClicked = async (action: string) => {
     IS_A_MENU_OPEN.set(false);
-    await invoke(action).catch(console.error);
+
+    // Handle invokes that returns promises with value
+    switch (action) {
+      case 'always_on_top':
+        {
+          await invoke<boolean>(action)
+            .then((response) => {
+              ALWAYS_ON_TOP.set(response);
+
+              for (const menu of AppMenu) {
+                for (const [key, items] of Object.entries(menu)) {
+                  if (key === 'Window') {
+                    for (const item of items) {
+                      if (item.action === 'always_on_top') {
+                        item.selected = response;
+                        break;
+                      }
+                    }
+                  }
+                }
+              }
+            })
+            .catch(console.error);
+        }
+        break;
+      default:
+        await invoke(action).catch(console.error);
+    }
   };
 </script>
 
@@ -107,18 +151,31 @@
           class="absolute top-[30px] z-[20] left-0 bg-[rgb(41,_42,_45)] border border-[rgb(63,_64,_66)] py-[3px]">
           {#each items as item}
             <MenuItem
-              class="hover:bg-[rgb(63,_64,_66)] flex items-center pr-[24px] pl-[18px] py-[5px]"
+              class="hover:bg-[rgb(63,_64,_66)] flex items-center pr-[24px] pl-[8px] py-[4px]"
               on:click={() => handleMenuItemClicked(item.action)}>
-              <div class="h-[16px] w-[16px]" />
+              <div
+                class="h-[16px] w-[16px] mr-[12px] flex items-center justify-center text-white/75">
+                {#if item.selected}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    fill="currentColor">
+                    <path
+                      d="M21.03 5.72a.75.75 0 0 1 0 1.06l-11.5 11.5a.747.747 0 0 1-1.072-.012l-5.5-5.75a.75.75 0 1 1 1.084-1.036l4.97 5.195L19.97 5.72a.75.75 0 0 1 1.06 0Z" />
+                  </svg>
+                {/if}
+              </div>
               <div class="flex-1 whitespace-nowrap">{item.name}</div>
               {#if item.accelerator}
-                <div class="flex-none ml-[12px] flex whitespace-nowrap text-end">
+                <div class="flex-none ml-[12px] flex whitespace-nowrap text-end text-white/50">
                   {item.accelerator}
                 </div>
               {/if}
             </MenuItem>
             {#if item.seperateAfter}
-              <div class="bg-[rgb(63,_64,_66)] h-[1px] my-[4px] w-full" />
+              <div class="bg-[rgb(63,_64,_66)] h-[1px] my-[5px] w-full" />
             {/if}
           {/each}
         </MenuItems>
