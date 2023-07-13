@@ -64,19 +64,9 @@ pub mod cmd {
   }
 
   #[tauri::command]
-  pub fn about_window(app: tauri::AppHandle) {
-    tokio::task::spawn(async move {
-      if let Some(win) = app.get_window("about") {
-        win.show().unwrap();
-      } else {
-        tauri::WindowBuilder::new(&app, "about", tauri::WindowUrl::App("about.html".into()))
-          .title("About")
-          .resizable(false)
-          .inner_size(300.0, 300.0)
-          .owner_window(app.get_window("main").unwrap().hwnd().unwrap())
-          .build()
-          .unwrap();
-      }
-    });
+  pub async fn is_always_on_top(_app: tauri::AppHandle, _window: tauri::Window) -> bool {
+    let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
+
+    app_config.always_on_top
   }
 }

@@ -7,5 +7,9 @@
 } */
 
 body {
-  @apply bg-[#090909] text-white;
+  @apply h-screen w-screen bg-[#090909] text-white/75;
+}
+
+* {
+  @apply focus:outline-none;
 }

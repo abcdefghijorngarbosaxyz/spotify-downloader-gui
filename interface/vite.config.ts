@@ -1,5 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+const { version }: { version: string } = JSON.parse(
+  fs.readFileSync(path.join(dirname, 'package.json'), 'utf-8')
+);
 
 export default defineConfig({
   plugins: [sveltekit()],
@@ -24,5 +32,8 @@ export default defineConfig({
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG
+  },
+  define: {
+    __APP_VERSION__: `'${version}'`
   }
 });

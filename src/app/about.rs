@@ -43,3 +43,25 @@ OS: {} {} {}
     }
   });
 }
+
+#[derive(serde::Serialize)]
+pub struct AppInfo {
+  version: String,
+  commit: String,
+  bit: String,
+  platform: String,
+}
+
+#[tauri::command]
+pub async fn app_info(app: tauri::AppHandle) -> AppInfo {
+  let package_info = app.package_info().clone();
+
+  let info: AppInfo = AppInfo {
+    version: package_info.version.to_string(),
+    commit: std::option_env!("GITHUB_SHA").unwrap_or("N/A").to_string(),
+    bit: os_info::get().bitness().to_string(),
+    platform: os_info::get().os_type().to_string(),
+  };
+
+  info
+}
