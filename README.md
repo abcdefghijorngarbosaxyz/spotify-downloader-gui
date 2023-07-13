@@ -117,6 +117,14 @@ Details are subject to change over time.
 
 To avoid legal issues with Spotify's Digital Rights Management techonology, spotDL downloads songs from YouTube, YouTube Music, and other supported music providers.
 
+## Supported Platforms
+
+| Platform     | Versions    |
+| :----------- | :---------- |
+| Windows      | 7 and above |
+| macOS (todo) |             |
+| Linux (todo) |             |
+
 ## The Logo
 
 An arrow down (representing a download symbol), on fire, in YouTube red colors, because spotDL mainly downloads from YouTube/YTMusic, with the Spotify symbols inside.
