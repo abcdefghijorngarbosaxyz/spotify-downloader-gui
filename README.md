@@ -23,6 +23,7 @@ Download your favorite Spotify songs and playlists, along with album art and met
   <summary>App</summary>
 
 - [ ] Custom URI scheme
+- [ ] Self update
 - [ ] Use Spotify API
   - [ ] Search
     - [ ] By title
