@@ -2,17 +2,15 @@
   import { useLocalStorage } from '$lib/utils/local-storage';
   import { Menu, MenuButton, MenuItem, MenuItems } from '@rgossiaux/svelte-headlessui';
   import { invoke } from '@tauri-apps/api/tauri';
-  import { get, derived, writable } from 'svelte/store';
+  import { writable } from 'svelte/store';
+
+  import { ABOUT_DIALOG_OPEN } from '../../../../store';
+  import { onMount } from 'svelte';
 
   const IS_A_MENU_OPEN = writable<boolean>(false);
   const OPEN_MENU = writable<string | null>(null);
 
-  const ALWAYS_ON_TOP = writable<boolean>(useLocalStorage('get', 'ALWAYS_ON_TOP') === 'true');
-
-  $: {
-    $ALWAYS_ON_TOP = $ALWAYS_ON_TOP;
-    useLocalStorage('set', 'ALWAYS_ON_TOP', String($ALWAYS_ON_TOP));
-  }
+  const ALWAYS_ON_TOP = writable<boolean>(false);
 
   const AppMenu: Array<{
     [key: string]: Array<{
@@ -63,7 +61,7 @@
         {
           name: 'Always on top',
           action: 'always_on_top',
-          selected: true
+          selected: $ALWAYS_ON_TOP
         }
       ]
     },
@@ -105,6 +103,11 @@
 
     // Handle invokes that returns promises with value
     switch (action) {
+      case 'about_window':
+        {
+          ABOUT_DIALOG_OPEN.set(true);
+        }
+        break;
       case 'always_on_top':
         {
           await invoke<boolean>(action)
@@ -131,6 +134,14 @@
         await invoke(action).catch(console.error);
     }
   };
+
+  const isAlwaysOnTop = async () => {
+    await invoke<boolean>('is_always_on_top')
+      .then((value) => ALWAYS_ON_TOP.set(value))
+      .catch(console.error);
+  };
+
+  onMount(isAlwaysOnTop);
 </script>
 
 {#each AppMenu as menu}
@@ -140,7 +151,7 @@
         on:click={() => IS_A_MENU_OPEN.set(!$IS_A_MENU_OPEN)}
         on:mouseover={() => OPEN_MENU.set(key)}
         as="button"
-        class={`px-2 h-full flex items-center hover:bg-[rgb(41,_42,_45)] cursor-default ${
+        class={`px-2 h-full flex items-center hover:text-white hover:bg-[rgb(41,_42,_45)] focus:bg-[rgb(41,_42,_45)] cursor-default ${
           $OPEN_MENU === key && $IS_A_MENU_OPEN && 'bg-[rgb(41,_42,_45)]'
         }`}>
         {key}
@@ -151,7 +162,7 @@
           class="absolute top-[30px] z-[20] left-0 bg-[rgb(41,_42,_45)] border border-[rgb(63,_64,_66)] py-[3px]">
           {#each items as item}
             <MenuItem
-              class="hover:bg-[rgb(63,_64,_66)] flex items-center pr-[24px] pl-[8px] py-[4px]"
+              class="hover:bg-[rgb(63,_64,_66)] hover:text-white flex items-center pr-[24px] pl-[8px] py-[4px]"
               on:click={() => handleMenuItemClicked(item.action)}>
               <div
                 class="h-[16px] w-[16px] mr-[12px] flex items-center justify-center text-white/75">

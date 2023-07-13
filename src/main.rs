@@ -6,7 +6,7 @@ mod config;
 mod constants;
 mod utils;
 
-use app::{generic, window};
+use app::{about, generic, window};
 use config::AppConfig;
 
 #[tokio::main]
@@ -32,8 +32,9 @@ async fn main() {
       generic::cmd::devtools,
       generic::cmd::minimize,
       generic::cmd::always_on_top,
-      generic::cmd::about_window,
+      generic::cmd::is_always_on_top,
       window::cmd::close_window,
+      about::app_info,
     ])
     .setup(app::setup::init);
 
