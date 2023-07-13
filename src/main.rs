@@ -33,6 +33,8 @@ async fn main() {
       generic::cmd::minimize,
       generic::cmd::always_on_top,
       generic::cmd::is_always_on_top,
+      generic::cmd::open_download_folder,
+      generic::cmd::select_download_folder,
       window::cmd::close_window,
       about::app_info,
     ])

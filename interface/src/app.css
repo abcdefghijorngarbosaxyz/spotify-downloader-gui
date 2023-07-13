@@ -11,5 +11,5 @@ body {
 }
 
 * {
-  @apply focus:outline-none;
+  @apply cursor-default focus:outline-none;
 }

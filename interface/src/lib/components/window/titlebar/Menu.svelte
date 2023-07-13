@@ -151,7 +151,7 @@
         on:click={() => IS_A_MENU_OPEN.set(!$IS_A_MENU_OPEN)}
         on:mouseover={() => OPEN_MENU.set(key)}
         as="button"
-        class={`px-2 h-full flex items-center hover:text-white hover:bg-[rgb(41,_42,_45)] focus:bg-[rgb(41,_42,_45)] cursor-default ${
+        class={`px-2 h-full flex items-center focus:text-white hover:text-white hover:bg-[rgb(41,_42,_45)] focus:bg-[rgb(41,_42,_45)] cursor-default ${
           $OPEN_MENU === key && $IS_A_MENU_OPEN && 'bg-[rgb(41,_42,_45)]'
         }`}>
         {key}
