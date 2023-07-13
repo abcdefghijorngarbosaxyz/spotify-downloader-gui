@@ -69,4 +69,39 @@ pub mod cmd {
 
     app_config.always_on_top
   }
+
+  #[tauri::command]
+  pub async fn open_download_folder(app: tauri::AppHandle, window: tauri::Window) {
+    let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
+
+    if crate::utils::path_exists(std::path::PathBuf::from(&app_config.download_folder).as_path()) {
+      tauri::api::shell::open(&app.shell_scope(), &app_config.download_folder, None).unwrap();
+    } else {
+      tauri::api::dialog::MessageDialogBuilder::new("Folder Not Found", "Select another folder.")
+        .buttons(tauri::api::dialog::MessageDialogButtons::Ok)
+        .parent(&window)
+        .kind(tauri::api::dialog::MessageDialogKind::Error)
+        .show(|_| {});
+    }
+  }
+
+  #[tauri::command]
+  pub async fn select_download_folder(_app: tauri::AppHandle) {
+    let app_config: crate::config::AppConfig = crate::config::AppConfig::read().await;
+
+    tokio::task::spawn(async move {
+      let folder: Option<std::path::PathBuf> =
+        tauri::api::dialog::blocking::FileDialogBuilder::new().pick_folder();
+      if folder.is_some() {
+        let folder_path: String = folder.unwrap().to_str().unwrap().to_string();
+        app_config
+          .patch(serde_json::json!({ "download_folder": folder_path }))
+          .write()
+          .await;
+        log::info!("Download folder changed: {}", folder_path);
+      }
+    })
+    .await
+    .unwrap();
+  }
 }

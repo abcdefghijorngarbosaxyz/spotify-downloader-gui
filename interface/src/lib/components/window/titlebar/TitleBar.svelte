@@ -152,7 +152,7 @@
     @apply pointer-events-none ml-[8px] align-bottom;
 
     & > svg {
-      @apply h-[18px] w-[18px] text-white;
+      @apply h-[16px] w-[16px];
     }
   }
 </style>
