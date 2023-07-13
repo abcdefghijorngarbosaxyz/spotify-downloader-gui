@@ -7,5 +7,5 @@
 } */
 
 body {
-  @apply bg-[#090909];
+  @apply bg-[#090909] text-white;
 }

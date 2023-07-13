@@ -117,7 +117,13 @@ pub async fn handle_event(event: tauri::WindowMenuEvent<tauri::Wry>) {
     "docs" => open(&app_handle, crate::constants::DOCS_URL),
     "report_issue" => open(&app_handle, crate::constants::ISSUES_URL),
     "join_us_on_discord" => open(&app_handle, crate::constants::DISCORD_URL),
-    "devtools" => window.open_devtools(),
+    "devtools" => {
+      if window.is_devtools_open() {
+        window.close_devtools();
+      } else {
+        window.open_devtools();
+      }
+    }
     "about" => crate::app::about::open_about(app_handle, window.clone()),
     "always_on_top" => {
       let always_on_top: bool = !app_config.always_on_top;

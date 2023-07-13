@@ -2,6 +2,7 @@
   import { invoke } from '@tauri-apps/api/tauri';
   import { appWindow } from '@tauri-apps/api/window';
   import AppIcon from '../../../../../../assets/generics/app_icon.svg';
+  import Menu from './Menu.svelte';
 
   const onMinimizeButtonClicked = async () => {
     await appWindow.minimize();
@@ -21,8 +22,7 @@
             <g
               transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"
               fill="currentColor"
-              stroke="none"
-            >
+              stroke="none">
               <path
                 d="M2148 2929 c-111 -16 -214 -84 -303 -199 -25 -32 -83 -130 -129 -218
             -103 -198 -143 -258 -230 -349 -129 -137 -270 -178 -357 -106 -119 101 -78
@@ -41,11 +41,13 @@
             -212 108 -413 130 -704 78 -67 -12 -74 -11 -93 6 -25 23 -26 69 -2 93 16 16
             86 35 212 56 54 10 299 -3 374 -19z m4 -260 c87 -22 231 -92 249 -120 10 -16
             10 -25 0 -45 -18 -35 -46 -36 -115 -1 -175 88 -343 107 -585 64 -83 -14 -89
-            -14 -107 2 -27 24 -25 61 3 79 70 46 406 59 555 21z"
-              />
+            -14 -107 2 -27 24 -25 61 3 79 70 46 406 59 555 21z" />
             </g>
           </svg>
         </button>
+        <div>
+          <Menu />
+        </div>
       </div>
       <div>
         <button tabindex="-1" on:click={onMinimizeButtonClicked}>
@@ -74,11 +76,9 @@
             fill="currentColor"
             stroke-width="0"
             viewBox="0 0 16 16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <path
-              d="M7.116 8l-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z"
-            />
+              d="M7.116 8l-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z" />
           </svg>
         </button>
       </div>
@@ -140,11 +140,19 @@
     @apply cursor-default;
   }
 
+  [data-tauri-drag-region] {
+    @apply flex;
+
+    & > :last-child {
+      @apply ml-[8px] flex;
+    }
+  }
+
   [data-tauri-drag-region] > button:has(svg) {
     @apply pointer-events-none ml-[8px] align-bottom;
 
     & > svg {
-      @apply h-[18px] w-[18px] text-white/50;
+      @apply h-[18px] w-[18px] text-white;
     }
   }
 </style>

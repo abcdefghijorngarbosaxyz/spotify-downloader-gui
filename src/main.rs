@@ -26,7 +26,14 @@ async fn main() {
     .plugin(app_logger.build())
     .invoke_handler(tauri::generate_handler![
       generic::cmd::get_platform,
-      window::cmd::close_window
+      generic::cmd::join_us_on_discord,
+      generic::cmd::report_issue,
+      generic::cmd::docs,
+      generic::cmd::devtools,
+      generic::cmd::minimize,
+      generic::cmd::always_on_top,
+      generic::cmd::about_window,
+      window::cmd::close_window,
     ])
     .setup(app::setup::init);
 
