@@ -11,5 +11,9 @@ body {
 }
 
 * {
-  @apply cursor-default focus:outline-none;
+  @apply focus:outline-none;
+}
+
+button {
+  @apply cursor-default;
 }
